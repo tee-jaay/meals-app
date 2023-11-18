@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog App</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+  <script type="text/babel">
+    // React component
+    function App() {
+      const [recipes, setRecipes] = React.useState([]);
+
+      React.useEffect(() => {
+        // Fetch recipes using Axios
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+          .then(response => {
+            setRecipes(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching recipes:', error);
+          });
+      }, []);
+
+      return (
+        <div>
+          <h1>Recipe App</h1>
+          <ul>
+            {recipes.map(recipe => (
+              <li key={recipe.id}>{recipe.title}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    // Render the React component
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    );
+  </script>
+</body>
+</html>
